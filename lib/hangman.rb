@@ -50,6 +50,7 @@ class HangmanGame
     puts "Input letter >>".italic
     letter_guess = gets.chomp.downcase
     response = make_guess(letter_guess)
+
     case response
     when false
       puts "You have already tried this letter before".red
@@ -58,6 +59,16 @@ class HangmanGame
       puts "Guesses left: #{incorrect_guesses_left}".white.on_red
     when 1
       puts "Your guess was correct!".green
+    end
+
+    if self.is_won?
+      puts "Congratulations! You have won the game!"
+      return 0
+    end
+  end
+
+  def is_won?
+    incomplete_guess.join("") == word ? true : false
   end
 
   protected
@@ -67,7 +78,6 @@ class HangmanGame
 end
 
 a = HangmanGame.new
-puts a.show_current_guess
 while true
   a.play_round
 end
