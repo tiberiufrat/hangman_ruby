@@ -1,5 +1,5 @@
 class HangmanGame
-  attr_accessor :word_letters, :incorrect_guesses_left, :wrong_guesses
+  attr_accessor :incomplete_guess, :word_letters, :incorrect_guesses_left, :wrong_guesses
 
   def initialize
     dictionary = File.open("5desk.txt")
@@ -10,7 +10,7 @@ class HangmanGame
     @wrong_guesses = []
   end
 
-  def incomplete_guess
+  def show_current_guess
     guess_arr = []
     @incomplete_guess.each do |item|
       unless item.nil?
@@ -20,6 +20,27 @@ class HangmanGame
       end
     end
     guess_arr.join(' ')
+  end
+
+  def make_guess(letter_guess)
+    if wrong_guesses.include? letter_guess || incomplete_guess.include? letter_guess
+      return "You have already tried this letter."
+    end
+
+    if word.include? letter_guess
+      letter_arr = word.split("")
+      indices = letter_arr.each_index.select do |i| 
+        letter_arr[i] == letter_guess
+      end
+      indices.each do |index|
+        incomplete_guess[index] = letter_guess
+      end
+      puts "Congratulations! You have guessed right"
+    else
+      incorrect_guesses_left -= 1
+      wrong_guesses.push(letter_guess)
+      puts "Your guess is wrong. Tries left: #{incorrect_guesses_left}"
+    end
   end
 
   protected
