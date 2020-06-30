@@ -23,8 +23,9 @@ class HangmanGame
   end
 
   def make_guess(letter_guess)
-    if wrong_guesses.include? letter_guess || incomplete_guess.include? letter_guess
-      return "You have already tried this letter."
+    if wrong_guesses.include?(letter_guess)
+      puts "You have already tried this letter."
+      return false
     end
 
     if word.include? letter_guess
@@ -36,10 +37,12 @@ class HangmanGame
         incomplete_guess[index] = letter_guess
       end
       puts "Congratulations! You have guessed right"
+      puts show_current_guess
     else
-      incorrect_guesses_left -= 1
+      @incorrect_guesses_left -= 1
       wrong_guesses.push(letter_guess)
       puts "Your guess is wrong. Tries left: #{incorrect_guesses_left}"
+      puts show_current_guess
     end
   end
 
@@ -50,4 +53,7 @@ class HangmanGame
 end
 
 a = HangmanGame.new
-puts a.incomplete_guess
+puts a.show_current_guess
+while true
+  a.make_guess(gets.chomp.downcase)
+end
