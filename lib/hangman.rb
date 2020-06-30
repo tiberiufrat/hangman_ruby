@@ -7,7 +7,7 @@ class HangmanGame
     dictionary = File.open("5desk.txt")
     @word = dictionary.read.split.select {|line| line.length > 5 && line.length < 12}.sample.downcase
     @word_letters = word.split("")
-    @incorrect_guesses_left = 5
+    @incorrect_guesses_left = 10
     @incomplete_guess = Array.new(word.length)
     @wrong_guesses = []
   end
@@ -67,16 +67,29 @@ class HangmanGame
     end
   end
 
+  def play_game
+    puts "Playing new game...".bold.white.on_black
+    while incorrect_guesses_left >= 0
+      play_round()
+
+      if self.is_won?
+        puts "Congratulations! You have won the game!".white.on_green
+        return 0
+      end
+    end
+    puts "You have lost.".white.on_red
+    puts "The word was:" + "#{word}".italic
+  end
+
   def is_won?
     incomplete_guess.join("") == word ? true : false
   end
 
-  # protected
+  protected
   def word
     @word
   end
 end
 
 a = HangmanGame.new
-require 'pry'; binding.pry
-a.play_round
+a.play_game
