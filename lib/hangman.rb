@@ -77,13 +77,13 @@ class HangmanGame
     puts "The word was:" + "#{word}".bold
   end
 
-  def is_won?
-    incomplete_guess.join("") == word ? true : false
-  end
-
   protected
   def word
     @word
+  end
+
+  def is_won?
+    incomplete_guess.join("") == word ? true : false
   end
 end
 
