@@ -60,11 +60,6 @@ class HangmanGame
     when 1
       puts "Your guess was correct!".green
     end
-
-    if self.is_won?
-      puts "Congratulations! You have won the game!".white.on_green
-      return false
-    end
   end
 
   def play_game
