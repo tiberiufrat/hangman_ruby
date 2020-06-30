@@ -1,12 +1,14 @@
 require "colorize"
+require "yaml"
 
 class HangmanGame
-  attr_accessor :incomplete_guess, :word_letters, :incorrect_guesses_left, :wrong_guesses
+  attr_accessor :incomplete_guess, :incorrect_guesses_left, :wrong_guesses
+
+  @@save_names = []
 
   def initialize
     dictionary = File.open("5desk.txt")
     @word = dictionary.read.split.select {|line| line.length > 5 && line.length < 12}.sample.downcase
-    @word_letters = word.split("")
     @incorrect_guesses_left = 10
     @incomplete_guess = Array.new(word.length)
     @wrong_guesses = []
@@ -75,6 +77,26 @@ class HangmanGame
     end
     puts "You have lost.".white.on_red
     puts "The word was:" + "#{word}".bold
+  end
+
+  def save_to_yaml(filename)
+    dump = YAML.dump ({
+      word: @word,
+      wrong_guesses: @wrong_guesses,
+      incomplete_guess: @incomplete_guess,
+      incorrect_guesses_left: @incorrect_guesses_left,
+    })
+    File.open(filename, 'w') do |file|
+      file.puts dump
+    end
+  end
+
+  def load_from_yaml(filename)
+    data = YAML.load File.read(filename)
+    @word = data[:word]
+    @wrong_guesses = data[:wrong_guesses]
+    @incomplete_guess = data[:incomplete_guess]
+    @incorrect_guesses_left = data[:incorrect_guesses_left]
   end
 
   protected
