@@ -1,3 +1,5 @@
+require "colorize"
+
 class HangmanGame
   attr_accessor :incomplete_guess, :word_letters, :incorrect_guesses_left, :wrong_guesses
 
@@ -23,27 +25,39 @@ class HangmanGame
   end
 
   def make_guess(letter_guess)
-    if wrong_guesses.include?(letter_guess)
-      puts "You have already tried this letter."
+    if wrong_guesses.include?(letter_guess) || incomplete_guess.include?(letter_guess)
       return false
     end
 
     if word.include? letter_guess
-      letter_arr = word.split("")
-      indices = letter_arr.each_index.select do |i| 
-        letter_arr[i] == letter_guess
+      indices = word.split("").each_index.select do |i| 
+        word.split("")[i] == letter_guess
       end
       indices.each do |index|
         incomplete_guess[index] = letter_guess
       end
-      puts "Congratulations! You have guessed right"
-      puts show_current_guess
+      return 1
+
     else
       @incorrect_guesses_left -= 1
       wrong_guesses.push(letter_guess)
-      puts "Your guess is wrong. Tries left: #{incorrect_guesses_left}"
-      puts show_current_guess
+      return 0
     end
+  end
+
+  def play_round
+    puts show_current_guess
+    puts "Input letter >>".italic
+    letter_guess = gets.chomp.downcase
+    response = make_guess(letter_guess)
+    case response
+    when false
+      puts "You have already tried this letter before".red
+    when 0
+      puts "Your guess was wrong. Try again".red
+      puts "Guesses left: #{incorrect_guesses_left}".white.on_red
+    when 1
+      puts "Your guess was correct!".green
   end
 
   protected
@@ -55,5 +69,5 @@ end
 a = HangmanGame.new
 puts a.show_current_guess
 while true
-  a.make_guess(gets.chomp.downcase)
+  a.play_round
 end
