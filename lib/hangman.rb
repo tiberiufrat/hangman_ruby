@@ -1,5 +1,5 @@
 class HangmanGame
-  attr_accessor :guess, :word_letters, :incorrect_guesses_left, :wrong_guesses
+  attr_accessor :word_letters, :incorrect_guesses_left, :wrong_guesses
 
   def initialize
     dictionary = File.open("5desk.txt")
@@ -11,7 +11,15 @@ class HangmanGame
   end
 
   def guess
-    
+    guess_arr = []
+    @guess.each do |item|
+      unless item.nil?
+        guess_arr.push("#{item} ")
+      else
+        guess_arr.push("_ ")
+      end
+    end
+    guess_arr
   end
 
   protected
