@@ -14,12 +14,12 @@ class HangmanGame
     guess_arr = []
     @incomplete_guess.each do |item|
       unless item.nil?
-        guess_arr.push("#{item} ")
+        guess_arr.push(item)
       else
-        guess_arr.push("_ ")
+        guess_arr.push("_")
       end
     end
-    guess_arr
+    guess_arr.join(' ')
   end
 
   protected
@@ -27,3 +27,6 @@ class HangmanGame
     @word
   end
 end
+
+a = HangmanGame.new
+puts a.incomplete_guess
