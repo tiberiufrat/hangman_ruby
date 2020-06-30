@@ -64,20 +64,20 @@ class HangmanGame
       puts "Your guess was correct!".green
     end
 
-    puts "Do you want to save this game?"
+    puts "Do you want to save this game?".italic
     answer = gets.chomp.downcase
     if answer == "yes"
-      puts "Enter name for saving >>"
+      puts "Enter name for saving >>".italic
       filename = "#{gets.chomp}.yaml"
       save_to_yaml(filename)
     end
   end
 
   def play_game
-    puts "Do you want to load a saved game? >>"
+    puts "Do you want to load a saved game? >>".italic
     load_now = gets.chomp.downcase
     if load_now == "yes"
-      puts "Insert save name >>"
+      puts "Insert save name >>".italic
       filename = "#{gets.chomp}.yaml"
       load_from_yaml(filename)
     else
