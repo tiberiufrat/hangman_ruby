@@ -6,13 +6,13 @@ class HangmanGame
     @word = dictionary.read.split.select {|line| line.length > 5 && line.length < 12}.sample
     @word_letters = word.split("")
     @incorrect_guesses_left = 5
-    @guess = Array.new(word.length)
+    @incomplete_guess = Array.new(word.length)
     @wrong_guesses = []
   end
 
-  def guess
+  def incomplete_guess
     guess_arr = []
-    @guess.each do |item|
+    @incomplete_guess.each do |item|
       unless item.nil?
         guess_arr.push("#{item} ")
       else
