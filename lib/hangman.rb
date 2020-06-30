@@ -46,6 +46,7 @@ class HangmanGame
   end
 
   def play_round
+    puts "\n\n"
     puts show_current_guess
     puts "Input letter >>".italic
     letter_guess = gets.chomp.downcase
@@ -64,7 +65,7 @@ class HangmanGame
 
   def play_game
     puts "Playing new game...".bold.white.on_black
-    while incorrect_guesses_left >= 0
+    while incorrect_guesses_left > 0
       play_round()
 
       if self.is_won?
@@ -73,7 +74,7 @@ class HangmanGame
       end
     end
     puts "You have lost.".white.on_red
-    puts "The word was:" + "#{word}".italic
+    puts "The word was:" + "#{word}".bold
   end
 
   def is_won?
