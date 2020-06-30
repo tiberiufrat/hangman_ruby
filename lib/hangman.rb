@@ -63,10 +63,26 @@ class HangmanGame
     when 1
       puts "Your guess was correct!".green
     end
+
+    puts "Do you want to save this game?"
+    answer = gets.chomp.downcase
+    if answer == "yes"
+      puts "Enter name for saving >>"
+      filename = "#{gets.chomp}.yaml"
+      save_to_yaml(filename)
+    end
   end
 
   def play_game
-    puts "Playing new game...".bold.white.on_black
+    puts "Do you want to load a saved game? >>"
+    load_now = gets.chomp.downcase
+    if load_now == "yes"
+      puts "Insert save name >>"
+      filename = "#{gets.chomp}.yaml"
+      load_from_yaml(filename)
+    else
+      puts "Playing new game...".bold.white.on_black
+    end
     while incorrect_guesses_left > 0
       play_round()
 
